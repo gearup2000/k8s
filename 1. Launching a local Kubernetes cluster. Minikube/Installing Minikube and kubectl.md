@@ -34,4 +34,6 @@ The WMWare Workstation do not show the minikube VM on the list of VM machines. T
 
 ## Install kubectl on Windows
 
-Please follow the instruction on [https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/](https://https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/)
+Please follow the instruction on [https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/](https://https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/). Do not forget to add kubectl to the Environment Variables of your Windows.
+
+Type env, on the Search, Choice **Edit the system Environment variables**, Press **Environment Variables**, on the **System variables** window select **Path** and press **Edit...** button, add the folder where you placed you kubectl.exe file. Press OK buttons to close the **Environment Variables** windows.
