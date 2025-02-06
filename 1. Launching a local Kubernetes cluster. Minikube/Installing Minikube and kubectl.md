@@ -35,5 +35,3 @@ The WMWare Workstation do not show the minikube VM on the list of VM machines. T
 ## Install kubectl on Windows
 
 Please follow the instruction on [https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/](https://https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/)
-
-```
