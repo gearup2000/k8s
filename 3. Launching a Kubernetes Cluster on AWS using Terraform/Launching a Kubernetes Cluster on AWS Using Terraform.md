@@ -1,6 +1,7 @@
 ## Launching a Kubernetes Cluster on AWS using Terraform
 
-Clone from hashicorp-education repo from [https://github.com/hashicorp-education/learn-terraform-provision-eks-cluster](https://github.com/hashicorp-education/learn-terraform-provision-eks-clusterhttps:/)
+
+[https://github.com/hashicorp-education/learn-terraform-provision-eks-cluster](https://github.com/hashicorp-education/learn-terraform-provision-eks-clusterhttps:/)
 
 
 # Provision an EKS cluster (AWS)
