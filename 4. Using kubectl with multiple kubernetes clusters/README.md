@@ -105,7 +105,10 @@ Checking the config file.
 ```
 output ommited ...
 
-- cluster:                                                                                                                                                                 certificate-authority: path_to_the\ca_file                                                                                                                             server: https://k8s.test.com:9443                                                                                                                                    name: my-external-cluster   
+- cluster: 
+certificate-authority: path_to_the\ca_file
+server: https://k8s.test.com:9443
+name: my-external-cluster
 
 output ommited ...
 
@@ -123,7 +126,10 @@ Checking the config file.
 ```
 output ommited ...
 
-- name: temp                                                                                                                                                             user:                                                                                                                                                                    password: superROOT                                                                                                                                                    username: extra_user  
+- name: temp
+user:
+password: superROOT
+username: extra_user  
 
 output ommited ...
 ```
@@ -138,7 +144,9 @@ kubectl config set-credentials temp --token=superTOKEN
 ```
 output ommited ...
 
-- name:     temp                                                                                                                                                             user:                                                                                                                                                                    token: superTOKEN 
+- name:     temp
+user:
+token: superTOKEN 
 
 output ommited ...
 ```
@@ -154,7 +162,12 @@ Checking config file.
 ```
 output ommited ...
 
-contexts:                                                                                                                                                              - context:                                                                                                                                                                 cluster: my-external-cluster                                                                                                                                           namespace: extra-namespace                                                                                                                                             user: temp                                                                                                                                                           name: extra-context  
+contexts:
+- context:
+cluster: my-external-cluster
+namespace: extra-namespace
+user: temp
+name: extra-context  
 
 output ommited ...
 ```
@@ -189,14 +202,14 @@ NAME            STATUS   ROLES           AGE     VERSION                        
 Changing the context to use k8s-cluster-1.
 
 ```
-C:\Users\Admin\.kube>kubectl config use-context k8s-cluster-1                                                                                                   
+C:\Users\Admin\.kube>kubectl config use-context k8s-cluster-1                                                                                                 
 Switched to context "k8s-cluster-1".                                                                                                                                   C:\Users\Admin\.kube> kubectl get nodes                                                                                                                            NAME            STATUS   ROLES           AGE     VERSION                                                                                                               k8s-cluster-1   Ready    control-plane   3h38m   v1.32.0 
 ```
 
 Checking the current context.
 
 ```
-C:\Users\Admin\.kube> kubectl config get-contexts                                                                                                                  
+C:\Users\Admin\.kube> kubectl config get-contexts                                                                                                                
 CURRENT     NAME            CLUSTER               AUTHINFO           NAMESPACE
             extra-context   my-external-cluster   temp               extra-namespace
 *           k8s-cluster-1   k8s-cluster-1         k8s-cluster-1      default
@@ -205,26 +218,25 @@ CURRENT     NAME            CLUSTER               AUTHINFO           NAMESPACE
 ```
 
 ```
-C:\Users\JOE-Admin\.kube> kubectl get nodes                                                                                                                            NAME            STATUS   ROLES           AGE     VERSION                                                                                                               k8s-cluster-1   Ready    control-plane   3h43m   v1.32.0     
+C:\Users\JOE-Admin\.kube> kubectl get nodes                                                                                                                            NAME            STATUS   ROLES           AGE     VERSION                                                                                                               k8s-cluster-1   Ready    control-plane   3h43m   v1.32.0   
 ```
 
 Checking the clusters names and users.
 
 ```
-C:\Users\Admin\.kube> kubectl config get-clusters                                                                                                                  NAME                                                                                                                                                                   k8s-cluster-1                                                                                                                                                          k8s-cluster-2                                                                                                                                                          my-external-cluster                                                                                                                                                    
+C:\Users\Admin\.kube> kubectl config get-clusters                                                                                                                  NAME                                                                                                                                                                   k8s-cluster-1                                                                                                                                                          k8s-cluster-2                                                                                                                                                          my-external-cluster                                                                                                                                                  
 
-C:\Users\Admin\.kube> kubectl config get-users                                                                                                                     NAME                                                                                                                                                                   k8s-cluster-1                                                                                                                                                          k8s-cluster-2                                                                                                                                                          temp                 
+C:\Users\Admin\.kube> kubectl config get-users                                                                                                                     NAME                                                                                                                                                                   k8s-cluster-1                                                                                                                                                          k8s-cluster-2                                                                                                                                                          temp               
 ```
 
 ### Removing external clusters and users from the config file.
 
-
 ```
 kubectl config delete-context extra-context
-                                                                                                
-kubectl config delete-cluster my-external-cluster                                                                                            
+                                                                                              
+kubectl config delete-cluster my-external-cluster                                                                                          
 
-kubectl config delete-user temp                                                                                                              
+kubectl config delete-user temp                                                                                                            
 
 ```
 
@@ -233,7 +245,7 @@ kubectl config delete-user temp
 Checking what is the current context.
 
 ```
-C:\Users\Admin\.kube> kubectl config get-contexts                                                                                                                  
+C:\Users\Admin\.kube> kubectl config get-contexts                                                                                                                
 CURRENT     NAME            CLUSTER               AUTHINFO           NAMESPACE
             k8s-cluster-1   k8s-cluster-1         k8s-cluster-1      default
 *           k8s-cluster-2   k8s-cluster-2         k8s-cluster-2      default
