@@ -193,7 +193,7 @@ CURRENT     NAME            CLUSTER               AUTHINFO           NAMESPACE
 
 The asterix indicates the current-context.
 
-If we apply the commnand ```kubectl get nodes```. The output will show the nodes of current cluster, which is k8s-cluster-2.
+Applying the commnand ```kubectl get nodes```. The output shows the nodes of current cluster, which is k8s-cluster-2.
 
 ```
 NAME            STATUS   ROLES           AGE     VERSION                                                                                                               k8s-cluster-2   Ready    control-plane   3h31m   v1.32.0 
