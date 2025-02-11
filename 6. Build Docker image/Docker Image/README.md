@@ -21,11 +21,12 @@ My example `docker push kmi8000/k8sphp_multi:latest`
 Check the list of images.
 
 ```
-H:\Docker Image> docker images                                      
+H:\Docker Image> docker images                          
 REPOSITORY             TAG               IMAGE ID       CREATED          SIZE
 kmi8000/k8sphp_multi   latest            2316c07bc6c3   3 hours ago      648MB                                                                                          k8sphp_multi           latest            2316c07bc6c3   3 hours ago      648MB
 moby/buildkit          buildx-stable-1   14aa1b4dd92e   3 weeks ago      306MB
 kmi8000/k8sphp         latest            a1721362d4ef   16 months ago    466MB                                                                                          k8sphpamd64            0.1               2af50161f8bf   16 months ago    466MB                                                                                          ```
+```
 
 Remove any unnecessary images, for example **k8sphpamd64:0.1**.
 
@@ -35,8 +36,9 @@ Login to the DockerHub. Provide credentials if needed.
 
 ```
 H:\Docker Image> docker login
+
 Authenticating with existing credentials...                                                                                                                            Login Succeeded
-```. 
+```
 
 Push image to the DockerHub.
 
