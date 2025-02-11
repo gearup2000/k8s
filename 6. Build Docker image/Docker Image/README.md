@@ -37,7 +37,8 @@ Login to the DockerHub. Provide credentials if needed.
 ```
 H:\Docker Image> docker login
 
-Authenticating with existing credentials...                                                                                                                            Login Succeeded
+Authenticating with existing credentials...
+Login Succeeded
 ```
 
 Push image to the DockerHub.
