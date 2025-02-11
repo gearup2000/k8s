@@ -4,9 +4,13 @@ Dashboard is a web-based Kubernetes user interface. You can use Dashboard to dep
 
 Deploy a single cluster, take example of part 4. How to use kubectl with multiple kubernetes clusters.
 
+### UPDATE
+
+The minikube version v.1.35.0, has the options to activate a dashboard without installing any helm charts or any YAML files. To activate a dashboard run commands as...
+
+`minikube.exe addons enable metrics-server` to enable metrics features and `minikube dashboard` to activate and run the Dashboard.
+
 [Deploy and Access the Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
-
-
 
 Install helm in Windows by downloading the binary file and adding it to the Environment Variable of Windows.
 
