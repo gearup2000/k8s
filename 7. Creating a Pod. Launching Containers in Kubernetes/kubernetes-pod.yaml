@@ -1,0 +1,10 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-kubernetes-2
+spec:
+  containers:
+  - name: app-kubernetes-2-container-2
+    image: kmi8000/kubernetes_multi:0.1
+    ports:
+    - containerPort: 8000
