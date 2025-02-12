@@ -12,8 +12,6 @@ The whole process of providing docker image to the kubernetes cluster.
   <img src="docker and kubernetes.png" width="1150" title="hover text">
 </p>
 
-![Schema](docker and kubernetes.png)
-
 Check the Pod was allocated to the docker image by `kubectl.exe get pods`.
 The output shows the Pod and its status.
 
