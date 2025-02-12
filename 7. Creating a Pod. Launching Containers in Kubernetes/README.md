@@ -8,7 +8,7 @@ Deploy Kubernetes_multi:0.1 image on cluster, expose the port 8000
 
 The whole process of providing docker image to the kubernetes cluster.
 
-![Schema](./docker and kubernetes.png)
+![Schema](docker and kubernetes.png)
 
 Check the Pod was allocated to the docker image by `kubectl.exe get pods`.
 The output shows the Pod and its status.
