@@ -59,6 +59,7 @@ This can be checked by deploying one more pod...
 ```
 H:\GitHub\k8s\8. Labels, Annotations, and Namespaces in Kubernetes> kubectl run app-kubernetes-manual --image=kmi8000/kubernetes_multi:0.1 --port=8000
 pod/app-kubernetes-manual created
+
 H:\GitHub\k8s\8. Labels, Annotations, and Namespaces in Kubernetes> kubectl get pods --show-labels
 NAME                         READY   STATUS    RESTARTS      AGE   LABELS
 app-kubernetes-1             1/1     Running   1 (22h ago)   27h   run=app-kubernetes-1
@@ -95,24 +96,29 @@ H:\GitHub\k8s\8. Labels, Annotations, and Namespaces in Kubernetes> kubectl get 
 NAME                    READY   STATUS    RESTARTS      AGE
 app-kubernetes-1        1/1     Running   1 (22h ago)   27h
 app-kubernetes-manual   1/1     Running   0             20m
+
 H:\GitHub\k8s\8. Labels, Annotations, and Namespaces in Kubernetes> kubectl get pods -l !run
 NAME                         READY   STATUS    RESTARTS      AGE
 app-kubernetes-2             1/1     Running   1 (22h ago)   23h
 app-kubernetes-with-labels   1/1     Running   0             68m
+
 H:\GitHub\k8s\8. Labels, Annotations, and Namespaces in Kubernetes> kubectl get pods -l 'environment in (dev)'
 NAME                         READY   STATUS    RESTARTS      AGE
 app-kubernetes-1             1/1     Running   1 (22h ago)   27h
 app-kubernetes-with-labels   1/1     Running   0             70m
+
 H:\GitHub\k8s\8. Labels, Annotations, and Namespaces in Kubernetes> kubectl get pods -l 'app notin (http-server)'
 NAME                    READY   STATUS    RESTARTS      AGE
 app-kubernetes-1        1/1     Running   1 (22h ago)   27h
 app-kubernetes-2        1/1     Running   1 (22h ago)   23h
 app-kubernetes-manual   1/1     Running   0             23m
+
 H:\GitHub\k8s\8. Labels, Annotations, and Namespaces in Kubernetes> kubectl get pods -l app!=http-server
 NAME                    READY   STATUS    RESTARTS      AGE
 app-kubernetes-1        1/1     Running   1 (22h ago)   27h
 app-kubernetes-2        1/1     Running   1 (22h ago)   23h
 app-kubernetes-manual   1/1     Running   0             23m
+
 H:\GitHub\k8s\8. Labels, Annotations, and Namespaces in Kubernetes> kubectl get pods -l run,environment=dev
 NAME               READY   STATUS    RESTARTS      AGE
 app-kubernetes-1   1/1     Running   1 (22h ago)   27h 
@@ -125,6 +131,7 @@ Let's assume we have many nodes, and one of them have GPU. We can label that nod
 ```
 H:\GitHub\k8s\8. Labels, Annotations, and Namespaces in Kubernetes> kubectl label node minikube gpu=true
 node/minikube labeled
+
 H:\GitHub\k8s\8. Labels, Annotations, and Namespaces in Kubernetes> kubectl get nodes -l gpu=true
 NAME       STATUS   ROLES           AGE    VERSION
 minikube   Ready    control-plane   2d1h   v1.32.0
@@ -171,6 +178,7 @@ Deploying the kubernetes-pod-with-gpu.yaml
 ```
 H:\GitHub\k8s\8. Labels, Annotations, and Namespaces in Kubernetes> kubectl apply -f .\kubernetes-pod-with-gpu.yaml
 pod/app-kubernetes-with-gpu created
+
 H:\GitHub\k8s\8. Labels, Annotations, and Namespaces in Kubernetes> kubectl get pods
 NAME                         READY   STATUS    RESTARTS      AGE
 app-kubernetes-1             1/1     Running   1 (23h ago)   28h
@@ -178,6 +186,7 @@ app-kubernetes-2             1/1     Running   1 (23h ago)   24h
 app-kubernetes-manual        1/1     Running   0             61m
 app-kubernetes-with-gpu      1/1     Running   0             45s
 app-kubernetes-with-labels   1/1     Running   0             108m
+
 H:\GitHub\k8s\8. Labels, Annotations, and Namespaces in Kubernetes> kubectl.exe describe pod app-kubernetes-with-gpu
 Name:             app-kubernetes-with-gpu
 Namespace:        default
