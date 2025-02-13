@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: app-kubernetes-with-gpu
+  labels:
+    app: http-server
+spec:
+  nodeSelector:
+    gpu: "true"
+  containers:
+  - name: app-kubernetes-container
+    image: kmi8000/kubernetes_multi:0.1
+    ports:
+    - containerPort: 8000
