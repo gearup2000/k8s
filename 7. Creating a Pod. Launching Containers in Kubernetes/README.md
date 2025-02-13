@@ -9,7 +9,7 @@ Deploy Kubernetes_multi:0.1 image on cluster, expose the port 8000
 The whole process of providing docker image to the kubernetes cluster.
 
 <p align="center">
-  <img src="docker and kubernetes.png" width="1150" title="hover text">
+  <img src="docker and kubernetes.png" width="1150" title="schema">
 </p>
 
 Check the Pod was allocated to the docker image by `kubectl.exe get pods`.
@@ -91,4 +91,3 @@ Listening on port 8000 ...
 ```
 
 In case of removing the container, the logs are also will be deleted. To avoid that, the external logs storage can be connected.
-
