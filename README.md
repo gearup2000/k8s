@@ -8,4 +8,5 @@ For memorizing and recall k8s
 6. Creating a Pod. Launching Containers in Kubernetes.
 7. Creating a Pod. Launching Containers in Kubernetes
 8. Labels, Annotations, and Namespaces in Kubernetes
-9. ReplicationController and ReplicaSet in Kubernetes
+9. Lens - IDE for Kubernetes
+10. ReplicationController and ReplicaSet in Kubernetes
