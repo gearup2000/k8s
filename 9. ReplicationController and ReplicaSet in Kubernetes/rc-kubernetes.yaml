@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: kuber-rc
+spec:
+  replicas: 3
+  selector:
+    app: http-server
+  template:
+    metadata:
+      name: kubernetes-app
+      labels:
+        app: http-server
+    spec:
+      containers:
+      - name: http-server-image
+        image: kmi8000/kubernetes_multi
+        ports:
+        - containerPort: 8000

@@ -6,3 +6,6 @@ For memorizing and recall k8s
 4. How to use kubectl with multiple kubernetes clusters.
 5. How to Install Kubernetes Dashboard.
 6. Creating a Pod. Launching Containers in Kubernetes.
+7. Creating a Pod. Launching Containers in Kubernetes
+8. Labels, Annotations, and Namespaces in Kubernetes
+9. ReplicationController and ReplicaSet in Kubernetes
