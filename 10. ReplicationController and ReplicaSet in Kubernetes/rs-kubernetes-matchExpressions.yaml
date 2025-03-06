@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: ReplicaSet
+metadata:
+  name: kubernetes-rs-2
+spec:
+  replicas: 3
+  selector:
+    matchExpressions:
+      - key: app
+        operator: In
+        values:
+          - kubernetes
+          - http-server
+      - key: env
+        operator: Exists
+  template:
+    metadata:
+      labels:
+        app: kubernetes
+        env: dev
+    spec:
+      containers:
+      - name: kubernetes-app
+        image: kmi8000/k8sphp_multi 

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: kubernetes-app-manual
+  labels:
+    app: kubernetes-new-label
+spec:
+  containers:
+  - name: kubernetes-app-image
+    image: kmi8000/k8sphp_multi
+    ports:
+    - containerPort: 8000

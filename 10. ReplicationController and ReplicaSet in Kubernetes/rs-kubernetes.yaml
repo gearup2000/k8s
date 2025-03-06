@@ -1,0 +1,19 @@
+apiVersion: apps/v1                           # Specifies the API version for ReplicaSet resource
+kind: ReplicaSet                              # Defines this as a ReplicaSet object
+metadata:                                     # Metadata section contains information about the ReplicaSet
+  name: kubernetes-rs-1                       # Name of the ReplicaSet
+  labels:                                     # Labels for the ReplicaSet itself
+    app: kubernetes-rs                        # Label with key 'app' and value 'kubernetes-rs'
+spec:                                         # Specification section defining the desired state
+    replicas: 3                               # Desired number of pod replicas (3 pods will be maintained)
+    selector:                                 # Selector determines which pods belong to this ReplicaSet
+      matchLabels:                            # Simple equality-based selector
+        env: dev                              # Selects pods with label 'env: dev'
+    template:                                 # Pod template defining how pods created by this ReplicaSet will look
+      metadata:                               # Metadata for the pods that will be created
+        labels:                               # Labels that will be applied to each pod
+          env: dev                            # Label 'env: dev' (must match the selector above)
+      spec:                                   # Pod specification
+        containers:                           # List of containers in the pod
+        - name: kubernetes-app                # Container name
+          image: kmi8000/k8sphp_multi         # Container image to use

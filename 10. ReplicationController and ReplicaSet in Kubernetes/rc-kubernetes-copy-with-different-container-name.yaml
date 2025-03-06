@@ -13,7 +13,7 @@ spec:
         app: kubernetes
     spec:
       containers:
-      - name: kubernetes-app-image
+      - name: kubernetes-app-version-2-image
         image: kmi8000/k8sphp_multi
         ports:
         - containerPort: 8000
