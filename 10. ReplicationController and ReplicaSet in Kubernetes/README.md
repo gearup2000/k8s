@@ -191,7 +191,7 @@ kube-system   kube-scheduler-minikube            1/1     Running   0            
 kube-system   storage-provisioner                1/1     Running   1 (4h23m ago)   4h24m
 ```
 
-As can be seen, there are still 3 pods with the label `app=kubernetes` and 1 pod with the label `kubernetes-app-manual`. The kubernetes API has accepted the command but did not add it to the Replication Controller, since it has different labels. Let's change the label of this pod manually, so it can correlate with the labels od pods of Replication Controller:
+As can be seen, there are still 3 pods with the label `app=kubernetes` and 1 pod with the label `kubernetes-app-manual`. The kubernetes API has accepted the command but did not add it to the Replication Controller, since it has different labels. Let's change the label of this pod manually, so it can correlate with the labels of pods of Replication Controller:
 
 ```
 PS H:\GitHub\k8s\10. ReplicationController and ReplicaSet in Kubernetes> kubectl label pod kubernetes-app-manual app=kubernetes --overwrite
@@ -251,7 +251,7 @@ As can be seen, the pod `kubernetes-rc-mjrhf` has been labeled with the label `a
 
 In case we need to rename containers of existing pods, we can change the settings in the manifest file and apply it again. However, the changes will not affect the existing pods. To apply the changes, we need recreate them with the new settings and delete the existing pods.
 
-For example, let's change the name of the container, to do so let's make a copy of existing manifest file and change the name of the container:
+For example, let's change the name of the container, to do so let's make a copy of existing manifest file, named it as `rc-kubernetes-copy-with-different-container-name.yaml` and change the name of the container:
 
 ```
 apiVersion: v1
@@ -366,7 +366,7 @@ kubernetes-rs-1-zgtlm   1/1     Running   0          6m43s   env=dev
 
 The ReplicaSet has created 3 pods with the label `env=dev`.
 
-The next ReplicaSet manifest file nammed as `rs-kubernetes-matchExpressions.yaml` will create ReplicaSets of 3 pods:
+The next ReplicaSet manifest file named as `rs-kubernetes-matchExpressions.yaml` will create ReplicaSets of 3 pods:
 
 ```
 apiVersion: apps/v1
@@ -408,7 +408,7 @@ However in the selector part there is some changes, the matchExpressions are use
         operator: Exists
 ```
 
-we are saying that the pods should have labels (key) as `app` and the value of that label (key) should be equal to `kubernetes` OR `http-server`, and label `env` should exist, and the value of that key does not matter.
+we are saying that the pods should have labels (keys) as `app` and the values of these labels (keys) should be equal to `kubernetes` OR `http-server`, and ALSO the label `env` should exist, and the value of that key does not matter, and can be whatever.
 
 Let's apply this manifest and check the status of the pods:
 
@@ -515,7 +515,7 @@ spec:
     - containerPort: 8000
 ```
 
-The different manifest files are commented out with `# env: prod` and `# env: dev` respectively. Everything is the same, but the commented lines prevent the `env` label from being added to the Pods.In the commented manifest file `kubernetes-pods-manual-commented-env.yaml`, the `env` label is commented purposenly, so when we will apply this manifest, the ReplicaSet will see that the labels matches with its settings and the pods will NOT be created.
+The different manifest files are commented out with `# env: prod` and `# env: dev` respectively. Everything is the same, but the commented lines prevent the `env` label from being added to the Pods. In the commented manifest file `kubernetes-pods-manual-commented-env.yaml`, the `env` label is commented purposenly, so when we will apply this manifest, the ReplicaSet will see that the labels matches with its settings and the pods will be created, but will not be added to the ReplicaSet since they do not macth with current matchExpressions.
 
 Let's apply `kubernetes-pods-manual-commented-env.yaml` manifests file:
 
@@ -533,14 +533,14 @@ kubernetes-rs-2-pxmdn     1/1     Running   0          33m   app=kubernetes,env=
 kubernetes-rs-2-t4mlc     1/1     Running   0          33m   app=kubernetes,env=dev
 ```
 
-After applying the commented manifest, the pods `kubernetes-app-manual-1` and `kubernetes-app-manual-2` are created with the label `app=kubernetes`. However, the pods are not created with the label `env=dev` as the commented lines prevent this label from being added to the Pods, therefore they are not managed by ReplicaSet `kubernetes-rs-2` since the part mentions above, particularly
+After applying the commented manifest, the pods `kubernetes-app-manual-1` and `kubernetes-app-manual-2` are created with the labels as `app=kubernetes` and `app=http-server`. However, as mentioned previously, the pods are not created with the label `env=dev` as the commented lines prevent this label from being added to the Pods, therefore they are not managed by ReplicaSet `kubernetes-rs-2` since the part mentions above, particularly
 
 ```
       - key: env
         operator: Exists
 ```
 
-saying that the env must exist, since there is no `env` labels (keys) in newly created 2 pods, the ReplicaSet just ignore them.
+saying that the `env` must exist, and since there is no `env` labels (keys) in newly created 2 pods, the ReplicaSet just ignore them.
 
 Now let's apply the uncommented manifest `kubernetes-pods-manual-uncommented-app.yaml` and check the status of the pods:
 
