@@ -168,12 +168,15 @@ spec:
 
 And apply this manifest:
 
-```PS H:\GitHub\k8s\10. ReplicationController and ReplicaSet in Kubernetes> kubectl apply -f .\kubernetes-rc-extra-test-with-different-label.yaml
-pod/kubernetes-app-manual created```
+```
+PS H:\GitHub\k8s\10. ReplicationController and ReplicaSet in Kubernetes> kubectl apply -f .\kubernetes-rc-extra-test-with-different-label.yaml
+pod/kubernetes-app-manual created
+```
 
 Let's check the status of the pods again:
 
-```PS H:\GitHub\k8s> kubectl get pods -A
+```
+PS H:\GitHub\k8s> kubectl get pods -A
 NAMESPACE     NAME                               READY   STATUS    RESTARTS        AGE
 default       kubernetes-app-manual              1/1     Running   0               23s
 default       kubernetes-rc-g6btd                1/1     Running   0               140m
