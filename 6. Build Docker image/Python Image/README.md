@@ -80,4 +80,6 @@ Push image
 
 `docker push kmi8000/kubernetes_multi:0.1`
 
-All done! Now the image is avalable to download and use in **arm64** and **amd64** platforms.
+Create one more version of the image named `kubernetes_multi:0.2`. We will need it in the future. To do so uncomment the line `#self.wfile.write(b'Version 0.2\n')` by removing the `#` symbol, and build the `version 0.2` image.
+
+All done! Now the images are built to support multi platforms and avalable to download and use in **arm64** and **amd64** architectures.

@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes
+  labels:
+    app: kubernetes
+spec:
+  replicas: 5
+  minReadySeconds: 10
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: http-server
+  template:
+    metadata:
+      labels:
+        app: http-server
+    spec:
+      containers:
+        - name: kubernetes-app
+          image: kmi8000/kubernetes_multi:0.2
+          ports:
+          - containerPort: 8000
