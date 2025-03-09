@@ -11,3 +11,4 @@ For memorizing and recall k8s
 9. Lens - IDE for Kubernetes.
 10. ReplicationController and ReplicaSet in Kubernetes.
 11. Deployment in Kubernetes. Application Update Strategies.
+12. Service in Kubernetes - Part 1. Type ClusterIP Endpoints.
