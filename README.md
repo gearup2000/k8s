@@ -12,3 +12,4 @@ For memorizing and recall k8s
 10. ReplicationController and ReplicaSet in Kubernetes.
 11. Deployment in Kubernetes. Application Update Strategies.
 12. Service in Kubernetes - Part 1. Type ClusterIP Endpoints.
+13. Service in Kubernetes - Part 2. Types-ExternalName, NodePort and LoadBalancer. Headless Service.

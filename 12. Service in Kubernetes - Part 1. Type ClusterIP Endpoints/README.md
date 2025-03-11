@@ -1,6 +1,6 @@
 # 12. Service in Kubernetes - Part 1. Type ClusterIP Endpoints
 
-For this chapter we need to create a cluster with at least 2 nodes. To do so aplly the command below:
+For this chapter we need to create a cluster with at least 2 nodes. Install Docker Desktop first, and aplly the command below:
 
 `minikube start --nodes 2 -p multinode-demo`
 
