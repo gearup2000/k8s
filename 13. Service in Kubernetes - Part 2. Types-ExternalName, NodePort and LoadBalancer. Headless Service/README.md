@@ -416,6 +416,16 @@ RawContentLength  : 54
 
 PS H:\GitHub\k8s\13. Service in Kubernetes - Part 2. Types-ExternalName, NodePort and LoadBalancer. Headless Service> 
 ```
+It can be confused when you see that when you run `minikube service <service-name> --url`, there is different portnumbers. To understand this let's see how does the `minikube service <service-name> --url` works:
+
+ The Minikube does the following:
+a. It identifies the NodePort that Kubernetes assigned to your service.
+b. It creates a network tunnel between your host machine and the Minikube VM.
+c. It maps a port on your localhost (127.0.0.1) to the NodePort of your service in the Minikube VM.
+d. Port Forwarding: The tunnel essentially performs port forwarding. It takes requests from a randomly assigned port on your localhost and forwards them to the NodePort of your service in the Minikube cluster.
+e. Dynamic Port Assignment: The port on your localhost is dynamically assigned. This is why you see a different port number (like 50789 in your example) each time you run the command.
+
+
 
 In case the cluster is deployed on a cloud provider we would use the External IP address and port we have configured in manifest file.
 
@@ -450,3 +460,166 @@ The traffic from the same client IP address will be forwarded to the same pod.
 
 
 # LoadBalancer
+
+A LoadBalancer service in Kubernetes is used to expose your application to external traffic. It automatically provisions an external IP address that can be used to access the service from outside the Kubernetes cluster. This type of service is typically used in cloud environments where the cloud provider can provision a load balancer for you.
+
+### How LoadBalancer Service Works
+
+1. **Service Definition**: You define a LoadBalancer service in a YAML file, specifying the ports and selectors.
+2. **Provisioning**: When you apply the service definition, Kubernetes communicates with the cloud provider to provision a load balancer.
+3. **External IP**: The cloud provider assigns an external IP address to the load balancer.
+4. **Traffic Routing**: The load balancer routes incoming traffic to the service, which then forwards it to the appropriate pods based on the selectors.
+
+
+The Key Points of LoadBalancer Definition:
+
+- **Automatic Provisioning**: The cloud provider automatically provisions a load balancer and assigns an external IP address.
+- **External Traffic**: The LoadBalancer service is used to expose your application to external traffic.
+- **Cloud Provider Integration**: This type of service is typically used in cloud environments (e.g., AWS, GCP, Azure) where the cloud provider can provision a load balancer.
+
+### Example of LoadBalancer Service
+
+Here is an example of a LoadBalancer service definition that we will use to configure our minikube cluster, let's name it as `lb-service.yaml`:
+
+```yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubernetes-service-lb
+spec:
+  selector:
+    app: http-server
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+  type: LoadBalancer
+```
+
+Applying the LoadBalancer Service by `kubectl apply -f lb-service.yaml`, since we are using the minikube the status of ExternalIP will be pending, but we can use `minikube tunnel` to emulate the ExternalIP. To do so run `minikube tunnel` in separate terminal.
+
+```sh
+PS H:\GitHub\k8s\13. Service in Kubernetes - Part 2. Types-ExternalName, NodePort and LoadBalancer. Headless Service> kubectl get svc kubernetes-service-lb      
+NAME                    TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+kubernetes-service-lb   LoadBalancer   10.100.72.156   <pending>     80:30125/TCP   17s
+H:\GitHub\k8s\13. Service in Kubernetes - Part 2. Types-ExternalName, NodePort and LoadBalancer. Headless Service> kubectl get svc kubernetes-service-lb
+NAME                    TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+kubernetes-service-lb   LoadBalancer   10.100.72.156   127.0.0.1     80:30125/TCP   3m16s
+PS H:\GitHub\k8s\13. Service in Kubernetes - Part 2. Types-ExternalName, NodePort and LoadBalancer. Headless Service> 
+```
+
+### Accessing the Service
+
+Once the LoadBalancer service is created and an external IP address is assigned, you can access your application using the external IP address and the specified port:
+
+```sh
+curl http://127.0.0.1:80
+PS H:\GitHub\k8s\13. Service in Kubernetes - Part 2. Types-ExternalName, NodePort and LoadBalancer. Headless Service> curl http://127.0.0.1:80
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {72, 101, 108, 108...}                                                                                                                       RawContent        : HTTP/1.0 200 OK                                                                                                                                                  Date: Wed, 12 Mar 2025 09:15:28 GMT                                                                                                                              Server: BaseHTTP/0.6 Python/3.8.5                                                                                                            
+
+                    Hello world from hostname: kubernetes-6c85f7555c-8q4qf
+Headers           : {[Date, Wed, 12 Mar 2025 09:15:28 GMT], [Server, BaseHTTP/0.6 Python/3.8.5]}
+RawContentLength  : 54
+
+
+
+PS H:\GitHub\k8s\13. Service in Kubernetes - Part 2. Types-ExternalName, NodePort and LoadBalancer. Headless Service> curl http://127.0.0.1:80
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {72, 101, 108, 108...}
+RawContent        : HTTP/1.0 200 OK
+                    Date: Wed, 12 Mar 2025 09:15:32 GMT
+                    Server: BaseHTTP/0.6 Python/3.8.5
+
+                    Hello world from hostname: kubernetes-6c85f7555c-lrb4p
+Headers           : {[Date, Wed, 12 Mar 2025 09:15:32 GMT], [Server, BaseHTTP/0.6 Python/3.8.5]}
+RawContentLength  : 54
+
+
+
+PS H:\GitHub\k8s\13. Service in Kubernetes - Part 2. Types-ExternalName, NodePort and LoadBalancer. Headless Service> curl http://127.0.0.1:80
+
+
+StatusCode        : 200
+StatusDescription : OK
+Content           : {72, 101, 108, 108...}
+RawContent        : HTTP/1.0 200 OK
+                    Date: Wed, 12 Mar 2025 09:15:35 GMT
+                    Server: BaseHTTP/0.6 Python/3.8.5
+
+                    Hello world from hostname: kubernetes-6c85f7555c-9wrvx
+Headers           : {[Date, Wed, 12 Mar 2025 09:15:35 GMT], [Server, BaseHTTP/0.6 Python/3.8.5]}
+RawContentLength  : 54
+
+
+
+PS H:\GitHub\k8s\13. Service in Kubernetes - Part 2. Types-ExternalName, NodePort and LoadBalancer. Headless Service> 
+```
+
+As can be seen from the `curl` outputs we are getting the responces from each pods. If we apply the `kubectl get pods -o wide` we can see that pods are deployed in two separate nodes. 
+
+```sh
+PS H:\GitHub\k8s\13. Service in Kubernetes - Part 2. Types-ExternalName, NodePort and LoadBalancer. Headless Service> kubectl get pods -o wide
+NAME                          READY   STATUS    RESTARTS      AGE     IP           NODE                 NOMINATED NODE   READINESS GATES
+kubernetes-6c85f7555c-8q4qf   1/1     Running   4 (27m ago)   2d12h   10.244.1.5   multinode-demo-m02   <none>           <none>
+kubernetes-6c85f7555c-9wrvx   1/1     Running   4 (27m ago)   2d12h   10.244.1.3   multinode-demo-m02   <none>           <none>
+kubernetes-6c85f7555c-lrb4p   1/1     Running   4 (28m ago)   2d12h   10.244.0.2   multinode-demo       <none>           <none>
+```
+
+The loadbalancer-service has randomly chosen the port and exposed it in each pods we have, to see what port is it we can apply command as `kubectl describe service kubernetes-service-lb`
+
+```sh
+PS H:\GitHub\k8s\13. Service in Kubernetes - Part 2. Types-ExternalName, NodePort and LoadBalancer. Headless Service> kubectl describe service kubernetes-service-lb      
+Name:                     kubernetes-service-lb
+Namespace:                default
+Labels:                   <none>
+Annotations:              <none>
+Selector:                 app=http-server
+Type:                     LoadBalancer
+IP Family Policy:         SingleStack
+IP Families:              IPv4
+IP:                       10.100.72.156
+IPs:                      10.100.72.156
+LoadBalancer Ingress:     127.0.0.1 (VIP)
+Port:                     <unset>  80/TCP
+TargetPort:               8000/TCP
+NodePort:                 <unset>  30125/TCP
+Endpoints:                10.244.1.5:8000,10.244.0.2:8000,10.244.1.3:8000
+Session Affinity:         None
+External Traffic Policy:  Cluster
+Internal Traffic Policy:  Cluster
+Events:                   <none>
+PS H:\GitHub\k8s\13. Service in Kubernetes - Part 2. Types-ExternalName, NodePort and LoadBalancer. Headless Service> 
+```
+
+As can be seen in the output of the described command above the port number is `30125`.
+
+### Traffic Distribution
+
+- **Pods**: The LoadBalancer service distributes incoming traffic among the pods that match the service's selector. This ensures that the load is balanced across all available pods.
+- **Nodes**: While the load balancer itself may be aware of the nodes, the primary focus is on distributing traffic to the pods. The underlying nodes hosting these pods are not directly targeted by the load balancer.
+
+However, sometimes the port on Node cannot be determined, misconfigured or otherwise invalid. In this case, we can send the traffic directly to the nodes where the pods are running, without being forwarded to other nodes. To achive that we can add settings as `externalTrafficPolicy: Local`. This allows us to control the traffic to the nodes where the pods are running.
+
+The key points of this approach are:
+
+- **Preserves Source IP**: The client’s source IP address is preserved and made available to the backend pods.
+- **Direct Routing**: Traffic is routed directly to the nodes where the pods are running, without being forwarded to other nodes.
+- **Potential Imbalance**: If the pods are not evenly distributed across the nodes, this can lead to an imbalance in traffic distribution.
+
+Also, setting `externalTrafficPolicy` to `Local` is particularly useful in scenarios where you need to preserve the client’s source IP address for logging, auditing, or other purposes. It ensures that the backend pods can see the original source IP address of the client.
+
+The second option is `externalTrafficPolicy: Cluster`.
+
+### Comparison with `externalTrafficPolicy: Cluster`
+
+- **Cluster**: Traffic is routed to any node in the cluster, and then forwarded to the appropriate pods. This can lead to better load distribution but does not preserve the client’s source IP address.
+- **Local**: Traffic is routed only to the nodes where the target pods are running, preserving the client’s source IP address but potentially leading to an imbalance in traffic distribution if the pods are not evenly distributed.
+
+

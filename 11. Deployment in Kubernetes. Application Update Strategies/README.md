@@ -434,7 +434,7 @@ This shows how the Recreate strategy works with the Kubernetes Deployment. When 
 
 # The --record flag and history of deployments
 
-While testing the strateies, we used the `--record` flag to record the history of the deployments. The `--record` flag is a feature that records the actions taken by kubectl to modify resources. In this case, it recorded the actions taken to apply the kubernetes deployments.
+While testing the strategies, we used the `--record` flag to record the history of the deployments. The `--record` flag is a feature that records the actions taken by kubectl to modify resources. In this case, it recorded the actions taken to apply the kubernetes deployments.
 
 We can see the history of the deployments using the `kubectl rollout history deployment kubernetes` command:
 
