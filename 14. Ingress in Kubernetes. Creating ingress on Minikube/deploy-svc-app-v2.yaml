@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-v2
+  labels:
+    app: kubernetes-v2
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: http-server-v2
+  template:
+    metadata:
+      labels:
+        app: http-server-v2
+    spec:
+      containers:
+      - name: kubernetes-app
+        image: kmi8000/kubernetes_multi:0.2
+        ports:
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubernetes-service-v2
+spec:
+  selector:
+    app: http-server-v2
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000

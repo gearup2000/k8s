@@ -13,3 +13,4 @@ For memorizing and recall k8s
 11. Deployment in Kubernetes. Application Update Strategies.
 12. Service in Kubernetes - Part 1. Type ClusterIP Endpoints.
 13. Service in Kubernetes - Part 2. Types-ExternalName, NodePort and LoadBalancer. Headless Service.
+14. Ingress in Kubernetes. Creating ingress on Minikube.

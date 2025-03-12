@@ -622,4 +622,4 @@ The second option is `externalTrafficPolicy: Cluster`.
 - **Cluster**: Traffic is routed to any node in the cluster, and then forwarded to the appropriate pods. This can lead to better load distribution but does not preserve the client’s source IP address.
 - **Local**: Traffic is routed only to the nodes where the target pods are running, preserving the client’s source IP address but potentially leading to an imbalance in traffic distribution if the pods are not evenly distributed.
 
-
+Clean up the resources `minikube delete`.

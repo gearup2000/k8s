@@ -387,7 +387,7 @@ spec:
   template:
     metadata:
       labels:
-        app: kuber
+        app: kubernetes
         env: dev
     spec:
       containers:
@@ -395,7 +395,7 @@ spec:
         image: kmi8000/k8sphp_multi 
 ```
 
-However in the selector part there is some changes, the matchExpressions are used to match pods based on a set of conditions and operators (In, NotIn, Exists, DoesNotExist), in this example in the part:
+However, in the selector part there is some changes, the matchExpressions are used to match pods based on a set of conditions and operators (In, NotIn, Exists, DoesNotExist), in this example in the part:
 
 ```
     matchExpressions:
