@@ -293,7 +293,7 @@ In case you deploy the configuration in cloud, for example AWS. Instead of havin
 ```
 PS H:\GitHub\k8s\14. Ingress in Kubernetes. Creating ingress on Minikube> kubectl get ing
 NAME           CLASS   HOSTS                                ADDRESS          PORTS   AGE
-main-ingress   nginx   app.example.com,app-v3.example.com   192.168.16.132   80      24m
+main-ingress   nginx   app.example.com,app-v3.example.com   192.168.58.2   80      24m
 ```
 you would have a DNS name of the LoadBalancer, and use allias records. For example, you we would have an actual domain name as `app.example.com` we would create a DNS record of our LoadBalancer to that domain name. As we mentioned previouslu, since the ingress works on Layer 7, it can inspect the request, see the `app.example.com` in the HEADER and send the packet to the correct host.
 
