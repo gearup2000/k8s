@@ -301,4 +301,4 @@ you would have a DNS name of the LoadBalancer, and use allias records. For examp
 
 **NOTE!**
  In case the minikube cluster based on Docker fails to open the applications, disable the ingress addon service, run minikube tunnel in separated terminal and keep it running, return to the main termimal an enable the ingress addon service.
- In case the error still persists delete the whole cluster and try to build it with vmware driver and sufficiant resources. For example, as in this example, `minikube.exe start --cpus=4 --memory=8gb --disk-size=25gb --driver vmware`.
+ If the error still persists delete the whole cluster and try to build it with vmware driver and sufficiant resources. For example, as in this example, `minikube.exe start --cpus=4 --memory=8gb --disk-size=25gb --driver vmware`.
