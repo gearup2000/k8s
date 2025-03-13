@@ -295,10 +295,151 @@ PS H:\GitHub\k8s\14. Ingress in Kubernetes. Creating ingress on Minikube> kubect
 NAME           CLASS   HOSTS                                ADDRESS          PORTS   AGE
 main-ingress   nginx   app.example.com,app-v3.example.com   192.168.58.2   80      24m
 ```
-you would have a DNS name of the LoadBalancer, and use allias records. For example, you we would have an actual domain name as `app.example.com` we would create a DNS record of our LoadBalancer to that domain name. As we mentioned previouslu, since the ingress works on Layer 7, it can inspect the request, see the `app.example.com` in the HEADER and send the packet to the correct host.
+you would have a DNS name of the LoadBalancer, and use alias records. For example, you we would have an actual domain name as `app.example.com` we would create a DNS record of our LoadBalancer to that domain name. As we mentioned previouslu, since the ingress works on Layer 7, it can inspect the request, see the `app.example.com` in the HEADER and send the packet to the correct host.
 
 
 
 **NOTE!**
  In case the minikube cluster based on Docker fails to open the applications, disable the ingress addon service, run minikube tunnel in separated terminal and keep it running, return to the main termimal an enable the ingress addon service.
  If the error still persists delete the whole cluster and try to build it with vmware driver and sufficiant resources. For example, as in this example, `minikube.exe start --cpus=4 --memory=8gb --disk-size=25gb --driver vmware`.
+
+
+# For AWS
+
+### Step-by-Step Guide to Deploy Ingress Controller on AWS
+
+#### 1. Set Up Your Kubernetes Cluster on AWS
+
+First, ensure you have a Kubernetes cluster running on AWS. You can use Amazon EKS (Elastic Kubernetes Service) to create and manage your cluster.
+
+#### 2. Install AWS Load Balancer Controller
+
+The AWS Load Balancer Controller is required to provision AWS Application Load Balancers (ALB) for your Ingress resources.
+
+1. **Install the AWS Load Balancer Controller**:
+   Follow the official AWS documentation to install the AWS Load Balancer Controller:
+   [AWS Load Balancer Controller Installation Guide](https://docs.aws.amazon.com/eks/latest/userguide/aws-load-balancer-controller.html)
+
+2. **Create IAM Policy**:
+   Create an IAM policy for the AWS Load Balancer Controller:
+
+   ```sh
+   curl -o iam_policy.json https://raw.githubusercontent.com/kubernetes-sigs/aws-load-balancer-controller/main/docs/install/iam_policy.json
+   aws iam create-policy \
+     --policy-name AWSLoadBalancerControllerIAMPolicy \
+     --policy-document file://iam_policy.json
+   ```
+
+3. **Create IAM Role and Service Account**:
+   Create an IAM role and Kubernetes service account for the controller:
+
+   ```sh
+   eksctl create iamserviceaccount \
+     --cluster <your-cluster-name> \
+     --namespace kube-system \
+     --name aws-load-balancer-controller \
+     --attach-policy-arn arn:aws:iam::<your-account-id>:policy/AWSLoadBalancerControllerIAMPolicy \
+     --approve
+   ```
+
+4. **Install the AWS Load Balancer Controller Helm Chart**:
+   Add the EKS Helm chart repository and install the AWS Load Balancer Controller:
+
+   ```sh
+   helm repo add eks https://aws.github.io/eks-charts
+   helm repo update
+   helm install aws-load-balancer-controller eks/aws-load-balancer-controller \
+     -n kube-system \
+     --set clusterName=<your-cluster-name> \
+     --set serviceAccount.create=false \
+     --set region=<your-region> \
+     --set vpcId=<your-vpc-id> \
+     --set serviceAccount.name=aws-load-balancer-controller
+   ```
+
+#### 3. Deploy Your Applications and Services
+
+Deploy your applications and services as described in your instructions from folder 14. Ensure you have the necessary deployment and service YAML files.
+
+```sh
+kubectl apply -f deploy-svc-app-latest.yaml -f deploy-svc-app-v1.yaml -f deploy-svc-app-v2.yaml -f deploy-svc-app-v3.yaml
+```
+
+#### 4. Create Ingress Resource
+
+Create an Ingress resource to route traffic to your services. Here is an example `ingress.yaml` file:
+
+```yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: main-ingress
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+spec:
+  rules:
+   - host: app.example.com
+     http:
+        paths:
+          - pathType: Prefix
+            path: /
+            backend:
+              service:
+                name: kubernetes-service
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: /v1
+            backend:
+              service:
+                name: kubernetes-service-v1
+                port:
+                  number: 80
+          - pathType: Exact
+            path: /v2
+            backend:
+              service:
+                name: kubernetes-service-v2
+                port:
+                  number: 80
+   - host: app-v3.example.com
+     http:
+        paths:
+          - pathType: Exact
+            path: /
+            backend:
+              service:
+                name: kubernetes-service-v3
+                port:
+                  number: 80
+```
+
+Apply the Ingress resource:
+
+```sh
+kubectl apply -f ingress.yaml
+```
+
+#### 5. Configure DNS
+
+Once the Ingress resource is created, the AWS Load Balancer Controller will provision an Application Load Balancer (ALB) and assign it a DNS name. You can find the DNS name by describing the Ingress resource:
+
+```sh
+kubectl describe ingress main-ingress
+```
+
+Update your DNS records to point to the ALB's DNS name. For example, if you own the domain `example.com`, create CNAME records for `app.example.com` and `app-v3.example.com` pointing to the ALB's DNS name.
+
+#### 6. Access Your Applications
+
+After updating your DNS records, you should be able to access your applications using the specified domain names:
+
+- `http://app.example.com`
+- `http://app.example.com/v1`
+- `http://app.example.com/v2`
+- `http://app-v3.example.com`
+
+### Summary
+
+By following these steps, you can deploy an Ingress controller on AWS using the AWS Load Balancer Controller. This setup allows you to route external traffic to your Kubernetes services using an Application Load Balancer (ALB) and custom domain names.
+
