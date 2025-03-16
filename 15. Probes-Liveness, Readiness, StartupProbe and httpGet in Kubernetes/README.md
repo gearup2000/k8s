@@ -1,4 +1,4 @@
-15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes
+15. Probes-Liveness, Readiness, StartupProbe, and httpGet in Kubernetes
 
 Clean up and create new the cluster before starting.
 
@@ -31,9 +31,9 @@ kubectl apply -f .\kubernetes-deploy.yaml
 Check the IP and see if the service working properly:
 
 ```bash
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> minikube ip
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> minikube ip
 192.168.16.132                                                                                                                                                   
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> curl http://192.168.16.132:30001
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> curl http://192.168.16.132:30001
 
 StatusCode        : 200
 StatusDescription : OK
@@ -46,7 +46,7 @@ RawContent        : HTTP/1.0 200 OK
 Headers           : {[Date, Fri, 14 Mar 2025 02:35:43 GMT], [Server, BaseHTTP/0.6 Python/3.8.5]}
 RawContentLength  : 61
 
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> 
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> 
 ```
 
 If you get the the HTTP response **200** the service works as expected.
@@ -160,7 +160,7 @@ Apply the `kubectl apply -f kubernetes-deploy-livenessProbe-exec.yaml` configura
 
 Output of get events command:
 ```bash
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> kubectl get events --watch          
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> kubectl get events --watch          
 LAST SEEN   TYPE      REASON              OBJECT                         MESSAGE
 2m50s       Normal    Scheduled           pod/ubuntu-6487f69dd8-7m5k7    Successfully assigned default/ubuntu-6487f69dd8-7m5k7 to minikube
 12s         Normal    Pulling             pod/ubuntu-6487f69dd8-7m5k7    Pulling image "ubuntu"
@@ -281,7 +281,7 @@ the Kubernetes will restart the container, there is no TCP services on port `800
 Let's apply the manifest file with port `8000` and check with curl:
 
 ```bash
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> curl http://192.168.16.132:30002
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> curl http://192.168.16.132:30002
 
 
 StatusCode        : 200
@@ -402,7 +402,7 @@ An HTTP-based Liveness probe helps ensure that your application remains healthy 
 Let's check it in practice:
 
 ```bash
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> kubectl apply -f .\kubernetes-deploy-livenessProbe-http.yaml
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> kubectl apply -f .\kubernetes-deploy-livenessProbe-http.yaml
 deployment.apps/kubernetes-http created
 service/kubernetes-service-http created
 ```
@@ -412,7 +412,7 @@ In separated terminal run events watch `kubectl get events --watch` so we can ob
 Now let's curl the /healthcheck endpoint, so after 5 request the container must fail, and Kubernetes will re-create the container.
 
 ```bash
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> curl http://192.168.16.132:30003/healthcheck
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> curl http://192.168.16.132:30003/healthcheck
 
 
 StatusCode        : 200
@@ -427,7 +427,7 @@ RawContentLength  : 30
 
 
 
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> curl http://192.168.16.132:30003/healthcheck
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> curl http://192.168.16.132:30003/healthcheck
 
 
 StatusCode        : 200
@@ -442,7 +442,7 @@ RawContentLength  : 30
 
 
 
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> curl http://192.168.16.132:30003/healthcheck
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> curl http://192.168.16.132:30003/healthcheck
 
 
 StatusCode        : 200
@@ -457,7 +457,7 @@ RawContentLength  : 30
 
 
 
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> curl http://192.168.16.132:30003/healthcheck
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> curl http://192.168.16.132:30003/healthcheck
 
 
 StatusCode        : 200
@@ -475,7 +475,7 @@ RawContentLength  : 30
 
 
 
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> curl http://192.168.16.132:30003/healthcheck
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> curl http://192.168.16.132:30003/healthcheck
 
 
 StatusCode        : 200
@@ -493,7 +493,7 @@ RawContentLength  : 30
 
 
 
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> curl http://192.168.16.132:30003/healthcheck
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, and httpGet in Kubernetes> curl http://192.168.16.132:30003/healthcheck
 curl : The remote server returned an error: (503) Server Unavailable.
 At line:1 char:1
 + curl http://192.168.16.132:30003/healthcheck
@@ -501,7 +501,7 @@ At line:1 char:1
     + CategoryInfo          : InvalidOperation: (System.Net.HttpWebRequest:HttpWebRequest) [Invoke-WebRequest], WebException
     + FullyQualifiedErrorId : WebCmdletWebResponseException,Microsoft.PowerShell.Commands.InvokeWebRequestCommand
 
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes>
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes>
 ```
 
 The events watch output:
@@ -540,7 +540,7 @@ A Readiness probe in Kubernetes using an HTTP request checks if a container is r
 
 ### Example
 
-Here is an example from the [`15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes/kubernetes-deploy-readinessProbe-http.yaml`](15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in kubernetes-deploy-readinessProbe-http.yaml ) file:
+Here is an example from the [`15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes/kubernetes-deploy-readinessProbe-http.yaml`](15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes-deploy-readinessProbe-http.yaml ) file:
 
 ```yaml
 apiVersion: apps/v1
@@ -721,7 +721,7 @@ This setup helps maintain the availability and reliability of your application b
 Let's deploy the manifest file and see how will it work.
 
 ```bash
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> kubectl apply -f .\kubernetes-deploy-all-Probes-http.yaml
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> kubectl apply -f .\kubernetes-deploy-all-Probes-http.yaml
 deployment.apps/kubernetes-http-allprobes created
 service/kubernetes-http-allprobes-service created
 ```
@@ -730,7 +730,7 @@ And check the events:
 
 ```bash
 5b55-wwlfq_default(e141bb1d-f2dd-4995-a76d-0eb0a2de3e37)
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes>  kubectl get events --watch
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes>  kubectl get events --watch
 LAST SEEN   TYPE      REASON              OBJECT                                            MESSAGE
 18s         Normal    Scheduled           pod/kubernetes-http-allprobes-5b8d5d7754-8gcfg    Successfully assigned default/kubernetes-http-allprobes-5b8d5d7754-8gcfg to minikube
 17s         Normal    Pulled              pod/kubernetes-http-allprobes-5b8d5d7754-8gcfg    Container image "kmi8000/kubernetes_multi:0.1" already present on machine
@@ -771,11 +771,11 @@ Due the absent of the `/server-test` file, the probes proceeded successfully and
 Let's now login to the newly created pod and create `/server-test` file manually.
 
 ```bash
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> kubectl get pods
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> kubectl get pods
 NAME                                         READY   STATUS    RESTARTS       AGE
 kubernetes-default-dd99d9db6-87kxw           1/1     Running   2 (7h ago)     43h
 kubernetes-http-allprobes-5b8d5d7754-8gcfg   0/1     Running   2 (107s ago)   13m
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> kubectl exec -it kubernetes-http-allprobes-5b8d5d7754-8gcfg -- bin/bash
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> kubectl exec -it kubernetes-http-allprobes-5b8d5d7754-8gcfg -- bin/bash
 root@kubernetes-http-allprobes-5b8d5d7754-8gcfg:/# touch /server-test.py
 root@kubernetes-http-allprobes-5b8d5d7754-8gcfg:/# 
 ```
@@ -798,21 +798,21 @@ The output of events:
 Running the `kubectl get pods` command shows the successful running pod:
 
 ```bash
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> kubectl get pods                                               
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> kubectl get pods                                               
 NAME                                         READY   STATUS    RESTARTS        AGE
 kubernetes-default-dd99d9db6-87kxw           1/1     Running   2 (7h3m ago)    44h
 kubernetes-http-allprobes-5b8d5d7754-8gcfg   1/1     Running   2 (5m31s ago)   16m
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> 
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> 
 ```
 
 Let's now delete the `/server-test` file to see what will happen:
 
 ```bash
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> kubectl exec -it kubernetes-http-allprobes-5b8d5d7754-8gcfg -- bin/bash
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> kubectl exec -it kubernetes-http-allprobes-5b8d5d7754-8gcfg -- bin/bash
 root@kubernetes-http-allprobes-5b8d5d7754-8gcfg:/# rm -rf /server-test.py 
 root@kubernetes-http-allprobes-5b8d5d7754-8gcfg:/# exit
 exit
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> 
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> 
 ```
 
 The events:
@@ -832,8 +832,8 @@ The `kubectl get pods` command shows the ned ID of the pod, proving that the old
 Let's delete the deployment:
 
 ```bash
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> kubectl delete -f .\kubernetes-deploy-all-Probes-http.yaml     
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> kubectl delete -f .\kubernetes-deploy-all-Probes-http.yaml     
 deployment.apps "kubernetes-http-allprobes" deleted
 service "kubernetes-http-allprobes-service" deleted
-PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes> 
+PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> 
 ```

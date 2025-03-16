@@ -14,4 +14,5 @@ For memorizing and recall k8s
 12. Service in Kubernetes - Part 1. Type ClusterIP Endpoints.
 13. Service in Kubernetes - Part 2. Types-ExternalName, NodePort and LoadBalancer. Headless Service.
 14. Ingress in Kubernetes. Creating ingress on Minikube.
-15. Probes-Liveness, Readiness, StartupProbe, http Headers, httpGet in Kubernetes.
+15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes.
+16. Overriding CMD and ENTRYPOINT Docker instructions using Kubernetes.
