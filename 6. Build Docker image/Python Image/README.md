@@ -80,6 +80,9 @@ Push image
 
 `docker push kmi8000/kubernetes_multi:0.1`
 
-Create two more versions of the image named `kubernetes_multi:0.2` and `kubernetes-multi:0.3`. We will need them in the future. To do so uncomment the line `#self.wfile.write(b'Version 0.2\n')` by removing the `#` symbol, and build the `version 0.2` image. Repeat with `version 0.3`.
+**Create more versions of the image named `kubernetes_multi:0.2` and `kubernetes-multi:0.3`. We will need them in the future. To do so uncomment the line `#self.wfile.write(b'Version 0.2\n')` by removing the `#` symbol, and build the `version 0.2` image. Repeat with `version 0.3`.**
+
+**Create Python image labeled as "Unhealthy". Check the `Unhealthy Image` folder.**
+**Create Python image labeled as "Combined". Check the `Combined Image` folder.**
 
 All done! Now the images are built to support multi platforms and avalable to download and use in **arm64** and **amd64** architectures.

@@ -6,7 +6,7 @@ class SimpleHTTPRequestHandler(BaseHTTPRequestHandler):
         self.send_response(200)
         self.end_headers()
         #self.wfile.write(b'Version 0.2\n')
-        self.wfile.write(b'Version 0.3\n')
+        #self.wfile.write(b'Version 0.3\n')
         self.wfile.write(b'Hello world from hostname: ' + socket.gethostname().encode())
 
 SERVER_PORT = 8000
