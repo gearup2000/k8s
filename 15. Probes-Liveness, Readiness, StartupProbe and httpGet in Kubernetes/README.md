@@ -837,3 +837,5 @@ deployment.apps "kubernetes-http-allprobes" deleted
 service "kubernetes-http-allprobes-service" deleted
 PS H:\GitHub\k8s\15. Probes-Liveness, Readiness, StartupProbe and httpGet in Kubernetes> 
 ```
+
+Clean up the cluster `minikube delete --all --purge`.

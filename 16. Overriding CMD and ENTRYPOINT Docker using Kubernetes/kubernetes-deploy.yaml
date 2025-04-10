@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kubernetes-args
+  labels:
+    app: kubernetes
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: http-server-args
+  template:
+    metadata:
+      labels:
+        app: http-server-args
+    spec:
+      containers:
+      - name: kubernetes-app
+        image: kmi8000/kubernetes_multi:0.1.args
+        args: 
+        - "3"
+        - "2"
+        - text-temp
+        ports:
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: kubernetes-args-service
+spec:
+  selector:
+    app: http-server-args
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 8000
+      nodePort: 30001
+  type: NodePort
